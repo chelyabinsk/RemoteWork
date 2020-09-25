@@ -6,6 +6,7 @@ Check each channel at 5 to (whatever hour) to see whether it has a livestream sc
 
 Start the scraper 2 minutes before the scheduled start
 """
+import os
 import requests 
 import re
 import time
@@ -118,6 +119,10 @@ class StreamWorker():
                 if not L.stats_running:
                     self.active_streams.pop(worker)
                     print('Removed video {}'.format(worker))
+                    
+    def create_path(self,path):
+        if not os.path.exists(path):
+            os.makedirs(path)
     
     def write_output(self):
         # Function to handle all of the writing to the file
@@ -126,6 +131,9 @@ class StreamWorker():
         
         comments_filename = 'comments/{}'.format(todaydate)
         viewers_filename = 'viewers/{}'.format(todaydate)
+        
+        self.create_path('comments')
+        self.create_path('viewers')
         
         for worker in self.active_streams.keys():
             L = self.active_streams[worker]['machine']
