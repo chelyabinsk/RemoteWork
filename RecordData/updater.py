@@ -22,13 +22,15 @@ def local_version():
         return json.loads(f.read())
     
 def create_version():
-#    version = {'version':2}
-#    changed_files = {'newfiles':[{'none':'none'}]}
-    data = {'version':2,'newfiles':[{'none':'none'}]}
+    data = {'version':2,'newfiles':[{'localfile':'none','remotefile':'none'}]}
     with open('../version.info','w') as f:
         f.write(json.dumps(data))
-a= new_version()
-create_version()
-b = local_version()
+
+new_files = new_version()
+local_files = local_version()
+
+if new_files['version'] >= local_files['version']:
+    for file in new_files['newfiles']:
+        print(file)
 
         
