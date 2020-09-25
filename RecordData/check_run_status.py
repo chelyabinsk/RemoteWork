@@ -11,7 +11,6 @@ do_run = False
 if os.path.isfile('last_run.txt'):
     with open('last_run.txt','r') as f:
         l = eval(f.read())
-    print(time.time() - l)
     if time.time() - l > 120:
         do_run = True
 else:
