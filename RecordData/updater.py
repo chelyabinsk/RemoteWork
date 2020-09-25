@@ -20,7 +20,7 @@ def create_version():
     version = {'version':2}
     changed_files = [{'none':'none'}]
     data = {'data':[version,changed_files]}
-    with open('version.info','w') as f:
+    with open('../version.info','w') as f:
         f.write(json.dumps(data))
 #new_version()
 create_version()
