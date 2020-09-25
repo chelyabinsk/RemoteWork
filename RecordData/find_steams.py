@@ -11,8 +11,9 @@ import requests
 import re
 import time
 import datetime
-from YTLiveScrape.live_chat_worker import LiveMachine
 import logging
+
+from YTLiveScrape.live_chat_worker import LiveMachine
 
 class StreamWorker():
     def __init__(self):
@@ -161,6 +162,7 @@ class StreamWorker():
     
     def main_loop(self):
         while 1:
+            self.update_status_file()
             # Run loop every minute
             # check whether any of the streams are within 2 minutes of the start
             now = datetime.datetime.now()
@@ -191,16 +193,15 @@ class StreamWorker():
                 exit()
             
             self.write_output()
-            self.update_status_file()
             time.sleep(60)
 
 # Create a logging instance
 logger = logging.getLogger('YouTubeScraper')
-logger.setLevel(logging.ERROR) 
+logger.setLevel(logging.DEBUG) 
 
 # Assign a file-handler to that instance
 fh = logging.FileHandler("errors.log")
-fh.setLevel(logging.ERROR) 
+fh.setLevel(logging.DEBUG) 
 
 # Format your logs (optional)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -211,5 +212,7 @@ logger.addHandler(fh)
 
 try:
     S = StreamWorker()
-except ValueError as e:
+except Exception as e:
     logger.exception(e) # Will send the errors to the file
+
+
