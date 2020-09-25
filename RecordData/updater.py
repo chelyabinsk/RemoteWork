@@ -14,13 +14,15 @@ base_url = 'https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/'
 
 def new_version():
     r = requests.get(base_url+'version.info')
-    print(r.text)
+    new_json = r.json()
+    return new_json
     
 def create_version():
-    version = {'version':2}
-    changed_files = {'newfiles':[{'none':'none'}]}
-    data = {'data':[version,changed_files]}
+#    version = {'version':2}
+#    changed_files = {'newfiles':[{'none':'none'}]}
+    data = {'version':2,'newfiles':[[{'none':'none'}]]}
     with open('../version.info','w') as f:
         f.write(json.dumps(data))
-#new_version()
+#a= new_version()
 create_version()
+        
