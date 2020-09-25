@@ -9,6 +9,7 @@ If new version is found on github then referenced files are replaced in the fold
 
 import requests
 import json
+from urllib.request import urlopen
 
 base_url = 'https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/'
 
@@ -22,15 +23,18 @@ def local_version():
         return json.loads(f.read())
     
 def create_version():
-    data = {'version':2,'newfiles':[{'localfile':'none','remotefile':'none'}]}
+    data = {'version':2,'newfiles':[{'localfile':'hello.txt','remotefile':'https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/version.info'}]}
     with open('../version.info','w') as f:
         f.write(json.dumps(data))
-
+create_version()
 new_files = new_version()
 local_files = local_version()
 
 if new_files['version'] >= local_files['version']:
     for file in new_files['newfiles']:
-        print(file)
-
+        data = urlopen(base_url+'version.info')
+        for line in data:
+            decoded_line = line.decode('utf-8')
+            print(file['localfile'],file['remotefile'])
+            print(decoded_line)
         

@@ -4,10 +4,10 @@ require(sqldf)
 #library(dplyr)
 
 rm(data)
-setwd('H:/pietro/RecordData/viewers/')
+setwd('H:/RemoteWork/RecordData/viewers')
 #setwd('/home/pirate/Unifolder/pietro/RecordData/viewers')
 
-date <- "2020-09-24"
+date <- "2020-09-25"
 
 data <- read.csv(paste(date,".txt",sep=""),sep = "\t",encoding = "UTF-8",quote="")
 #data$channel <- data[,1]
