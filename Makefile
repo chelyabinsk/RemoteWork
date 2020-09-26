@@ -11,4 +11,4 @@ addcron: install.sh
 	pip install py7zr --user
 	pip install PyDrive --user
 	chmod +x install.sh
-	$(current_dir)/$<
+	"$(current_dir)/$<"
