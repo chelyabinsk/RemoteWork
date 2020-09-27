@@ -8,7 +8,12 @@ current_dir = $(shell pwd)
 # Create cron tasks
 addcron: install.sh
 	pip install -i https://test.pypi.org/simple/ YTLiveScrape --user
-	pip install py7zr --user
+	pip install upgrade -i https://test.pypi.org/simple/ YTLiveScrape --user
+	pip install pandas
+	pip install nltk
+	pip install pymystem3
+	#pip install py7zr --user
+	#pip install tarfile --user
 	pip install PyDrive --user
 	chmod +x install.sh
-	"$(current_dir)/$<"
+	sh "$(current_dir)/$<"

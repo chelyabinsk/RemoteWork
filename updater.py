@@ -44,4 +44,4 @@ if new_files['version'] > local_files['version']:
         for line in data:
             decoded_line = line.decode('utf-8')
             f.write(decoded_line)
-        
+exit()

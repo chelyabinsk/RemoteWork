@@ -13,7 +13,21 @@ import time
 import datetime
 import logging
 
+from uploader import share_error
 from YTLiveScrape.live_chat_worker import LiveMachine
+
+import nltk
+#import pandas as pd
+nltk.download("stopwords")
+#--------#
+
+from nltk.corpus import stopwords
+from pymystem3 import Mystem
+from string import punctuation
+
+#Create lemmatizer and stopwords list
+mystem = Mystem() 
+russian_stopwords = stopwords.words("russian")
 
 class StreamWorker():
     def __init__(self):
@@ -124,6 +138,22 @@ class StreamWorker():
     def create_path(self,path):
         if not os.path.exists(path):
             os.makedirs(path)
+            
+    #Preprocess function
+    def preprocess_text(self,text):
+        try:
+            tokens = mystem.lemmatize(text.lower())
+        except AttributeError:
+            return text        
+        tokens = [token for token in tokens if token not in russian_stopwords\
+                  and token != " " \
+                  and token.strip() not in punctuation]
+        
+        text = " ".join(tokens)
+        r = re.compile("[а-яА-Я\s]+")
+        text = " ".join(re.findall(r, text))
+    #    text = [w for w in filter(r.match, text)]    
+        return text
     
     def write_output(self):
         # Function to handle all of the writing to the file
@@ -145,6 +175,7 @@ class StreamWorker():
                     comment['channel'] = L.channel_id
                     comment['channel_name'] = L.video_author
                     comment['video'] = L.video_id
+                    comment['clean'] = self.preprocess_text(comment['message'])
                     self.write_file('{}.txt'.format(comments_filename),comment)
                     
             stats = L.get_stats()
@@ -214,5 +245,6 @@ try:
     S = StreamWorker()
 except Exception as e:
     logger.exception(e) # Will send the errors to the file
-
-
+    share_error('errors.log')
+    
+exit()
