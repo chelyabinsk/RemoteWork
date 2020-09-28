@@ -57,7 +57,7 @@ def upload_youtube_data():
     file1.SetContentFile(zip_filename)
     file1.Upload()
     
-    remove_files = False
+    remove_files = True
     
     if remove_files:
         # Remove all old files
