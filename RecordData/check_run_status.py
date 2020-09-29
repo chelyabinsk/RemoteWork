@@ -9,6 +9,9 @@ import os
 import datetime
 from uploader import make_ping,upload_youtube_data
 
+
+Popen(['nohup', '../install.sh'], stdout=DEVNULL, stderr=DEVNULL)
+
 do_run = False
 if os.path.isfile('last_run.txt'):
     with open('last_run.txt','r') as f:
@@ -31,5 +34,4 @@ if now.minute % 15 == 0:
 if now.hour == 2 and now.minute == 4:
     upload_youtube_data()
     
-Popen(['nohup', '../install.sh'], stdout=DEVNULL, stderr=DEVNULL)
 exit()        
