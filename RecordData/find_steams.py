@@ -219,8 +219,8 @@ class StreamWorker():
             if (now.minute == 59 or now.minute in (0,1,2)) and self.checked_channels == True:
                 self.checked_channels = False
             
-            # Stop at 2:05
-            if now.hour == 2 and now.minute == 5:
+            # Stop at 2:02
+            if now.hour == 2 and now.minute == 2:
                 exit()
             
             self.write_output()
