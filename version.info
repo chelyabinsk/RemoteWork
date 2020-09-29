@@ -1,5 +1,10 @@
-{"version": 5, "newfiles": [{"localfile": "RecordData/uploader.py", 
+{"version": 6, "newfiles": [{"localfile": "RecordData/uploader.py", 
                             "remotefile": "https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/RecordData/uploader.py"},
 
                             {"localfile": "RecordData/check_run_status.py", 
-                            "remotefile": "https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/RecordData/check_run_status.py"} ]}
+                            "remotefile": "https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/RecordData/check_run_status.py"},
+                            
+                            {"localfile": "RecordData/find_steams.py", 
+                            "remotefile": "https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/RecordData/find_steams.py"},
+                            
+                            ]}
