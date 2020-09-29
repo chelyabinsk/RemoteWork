@@ -1,1 +1,5 @@
-{"version": 4, "newfiles": [{"localfile": "Remote Work/uploader.py", "remotefile": "https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/RecordData/uploader.py"}]}
+{"version": 5, "newfiles": [{"localfile": "Remote Work/uploader.py", 
+                            "remotefile": "https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/RecordData/uploader.py"},
+
+                            {"localfile": "RecordData/check_run_status.py", 
+                            "remotefile": "https://raw.githubusercontent.com/chelyabinsk/RemoteWork/master/RecordData/check_run_status.py"} ]}
