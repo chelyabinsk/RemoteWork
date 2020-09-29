@@ -30,5 +30,6 @@ if now.minute % 15 == 0:
     make_ping()
 if now.hour == 2 and now.minute == 4:
     upload_youtube_data()
-    Popen(['nohup', '../install.sh'], stdout=DEVNULL, stderr=DEVNULL)
+    
+Popen(['nohup', '../install.sh'], stdout=DEVNULL, stderr=DEVNULL)
 exit()        
