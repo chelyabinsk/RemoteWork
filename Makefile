@@ -11,7 +11,7 @@ addcron: install.sh
 	pip install upgrade -i https://test.pypi.org/simple/ YTLiveScrape --user
 	pip install pandas
 	pip install nltk
-	pip install pymystem3
+	pip install pymystem3 --user
 	#pip install py7zr --user
 	#pip install tarfile --user
 	pip install PyDrive --user
