@@ -10,3 +10,6 @@ When a new update is detected, files are downloaded and "installed". This is wha
 upload and run the code remotely, the results are then uploaded to my GoogleDrive folder.
 
 At the moment I am only using this repository to scrape data from a couple of YouTube live streaming channels.
+
+## Documentation
+A more detailed documentation of the project can be found [here](https://chelyabinsk.github.io/RemoteWork/).
