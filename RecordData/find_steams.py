@@ -11,9 +11,9 @@ import requests
 import re
 import time
 import datetime
-import logging
 
-from uploader import share_error
+import threading
+
 from YTLiveScrape.live_chat_worker import LiveMachine
 
 import nltk
@@ -35,11 +35,18 @@ class StreamWorker():
         self.active_streams = {}
         self.channels = self.check_channel_list()
         self.checked_channels = False
-        self.cookies = None        
+        self.cookies = None
+        self.stopping = False
         self.check_channels()
         
-        self.main_loop()        
+    
+    def start(self):
+        x = threading.Thread(target=self.main_loop)
+        x.daemon = True
+        x.start()
         
+    def stop(self):
+        self.stopping = True
         
     def check_channels(self):
         base_url = 'https://www.youtube.com/channel/{}'
@@ -185,32 +192,47 @@ class StreamWorker():
                 stat['video'] = L.video_id
                 self.write_file('{}.txt'.format(viewers_filename),stat)
             if not stats == []:
-                print('{} has {} viewers'.format(L.video_name,stats[-1]['viewers']))
+                #print('{} has {} viewers'.format(L.video_name,stats[-1]['viewers']))
+                pass
     
     def update_status_file(self):
         with open('last_run.txt','w') as f:
             f.write(str(time.time()))
     
+    def stop_all_workers(self):
+        for worker in self.active_streams.keys():
+            L = self.active_streams[worker]['machine']
+            L.stop_scrape()
+        self.active_streams = {}
+    
     def main_loop(self):
         while 1:
             self.update_status_file()
+            
+            if self.stopping:
+                print('Stopping all workers')
+                self.stop_all_workers()
+                print("Stopping the main loop")                
+                break
+            
             # Run loop every minute
             # check whether any of the streams are within 2 minutes of the start
             now = datetime.datetime.now()
             
             self.update_workers()
             
-            print()
-            print(now)
+            #print()
+            #print(now)
             for video_id in self.streams.keys():
                 minutes_to_start = (self.streams[video_id]['start_time']-time.time())/60
                 if minutes_to_start > 0:
-                    print('{} to start in {:.2f} minutes'.format(video_id,minutes_to_start))
+                    #print('{} to start in {:.2f} minutes'.format(video_id,minutes_to_start))
+                    pass
                 if minutes_to_start < 2:
                     if not video_id in self.active_streams.keys():
 #                        print(minutes_to_start)
                         self.start_scraper(video_id)
-            print()
+            #print()
             if (now.minute == 59 or now.minute in (0,1,2)) and self.checked_channels == False:
                 self.check_channel_list()
                 self.check_channels()
@@ -219,32 +241,6 @@ class StreamWorker():
             if (now.minute == 59 or now.minute in (0,1,2)) and self.checked_channels == True:
                 self.checked_channels = False
             
-            # Stop at 2:02
-            if now.hour == 2 and now.minute == 2:
-                exit()
-            
             self.write_output()
             time.sleep(60)
-
-# Create a logging instance
-logger = logging.getLogger('YouTubeScraper')
-logger.setLevel(logging.DEBUG) 
-
-# Assign a file-handler to that instance
-fh = logging.FileHandler("errors.log")
-fh.setLevel(logging.DEBUG) 
-
-# Format your logs (optional)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter) # This will set the format to the file handler
-
-# Add the handler to your logging instance
-logger.addHandler(fh)
-
-try:
-    S = StreamWorker()
-except Exception as e:
-    logger.exception(e) # Will send the errors to the file
-    share_error('errors.log')
     
-exit()
