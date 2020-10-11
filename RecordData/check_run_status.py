@@ -10,7 +10,7 @@ import datetime
 from uploader import make_ping,upload_youtube_data,share_error
 import logging
 from importlib import reload
-
+from data_file import gh_procedure
 
 def exec_run():
     import find_steams
@@ -43,7 +43,8 @@ def exec_run():
         if now.minute % 15 == 0:
             make_ping()
         if now.hour == 2 and now.minute == 4:
-            upload_youtube_data()
+            upload_youtube_data()  # Upload to GDrive
+            gh_procedure()  # Upload to GitHub
         if now.hour == 2 and now.minute == 5:
             S.stop()
             find_steams = reload(find_steams)
