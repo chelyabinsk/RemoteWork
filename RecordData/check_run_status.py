@@ -10,7 +10,7 @@ import datetime
 from uploader import make_ping,upload_youtube_data,share_error
 import logging
 from importlib import reload
-from data_file import gh_procedure
+from data_fix import gh_procedure
 
 def exec_run():
     import find_steams

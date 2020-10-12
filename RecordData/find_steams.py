@@ -233,12 +233,12 @@ class StreamWorker():
 #                        print(minutes_to_start)
                         self.start_scraper(video_id)
             #print()
-            if (now.minute == 59 or now.minute in (0,1,2)) and self.checked_channels == False:
+            if (now.minute == 59 or now.minute in (0,1,2) or now.minute % 15 == 0) and self.checked_channels == False:
                 self.check_channel_list()
                 self.check_channels()
                 self.checked_channels = True
             
-            if (now.minute == 59 or now.minute in (0,1,2)) and self.checked_channels == True:
+            if (now.minute == 59 or now.minute in (0,1,2) or now.minute % 15 == 0) and self.checked_channels == True:
                 self.checked_channels = False
             
             self.write_output()

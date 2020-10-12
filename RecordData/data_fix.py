@@ -9,10 +9,12 @@ import json
 from http import HTTPStatus
 import subprocess as cmd
 
+import glob
+from pathlib import Path
 
 def gen_file(repo):
 	todaydate = datetime.datetime.today().strftime('%Y-%m-%d')
-	df = pd.read_csv('viewers/{}.txt'.format(todaydate),sep="\t")
+	df = pd.read_csv(glob.glob('viewers/*.txt')[0],sep="\t")
 	sub_df = df.loc[(df['live']==True) ,['timestamp','viewers','channel_name']]
 	#sub_df = df[['timestamp','viewers','channel_name']]
 	sub_df[['timestamp']] = pd.to_datetime(sub_df['timestamp']+60*60*2,unit='s')
@@ -23,8 +25,8 @@ def gen_file(repo):
 	day = str(tmp.day).rjust(2,'0')
 	out_name = '../../{}/data/{}-{}-{}.csv'.format(repo,year,month,day)
 	export_df = sub_df.pivot_table(values='viewers', index=['timestamp'],columns='channel_name', aggfunc=np.sum)
-
 	export_df.to_csv(out_name)
+	print(out_name)
 	return out_name,tmp
 
 def update_date(m,d,y,raw_url,repo):
@@ -41,8 +43,7 @@ def update_date(m,d,y,raw_url,repo):
         #tmp = f
 
 def gh_procedure():
-        todaydate = datetime.datetime.today().strftime('%Y-%m-%d')
-
+        todaydate = glob.glob('viewers/*.txt')[0]
         with open('../gh.token','r') as f:
                 tmp = f.read().split("\n")
                 email = tmp[1]
@@ -63,14 +64,22 @@ def gh_procedure():
         day = str(a[1].day).rjust(2,'0')
         b=update_date(month,day,year,raw_url,repo)
 
+        home = str(Path.home())
+        
+        with open('{}/.git-credentials'.format(home),'w') as f:
+                f.write('https://{}:{}@github.com\n'.format(email,token))
         try:
+                #print("add files")
                 cmd.run('cd ../../{}; git add .'.format(repo),check=True,shell=True)
+                #print("commit")
                 cmd.run('cd ../../{}; git commit -am "{} upload"'.format(repo,todaydate),check=True,shell=True)
-                cmd.run("""cd ../../{}; git push <<!
-{}
-{}
-!""".format(repo,email,token),check=True,shell=True)
+                #print("push")
+                cmd.run("cd ../../{}; git push".format(repo),check=True,shell=True) #<<!
+#{}
+#{}
+#!""".format(repo,email,token),check=True,shell=True)
         except:
                 print("oh dear! git fucked up")
         cp = cmd.run('rm ../../{} -rf'.format(repo),check=True,shell=True)
 
+#gh_procedure()
