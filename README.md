@@ -11,7 +11,7 @@ upload and run the code remotely, the results are then uploaded to my GoogleDriv
 
 At the moment I am only using this repository to scrape data from a couple of YouTube live streaming channels.
 
-The basic data flow is shown in the following ![picture](docs/flow.png)
+The basic data flow is shown by the following picture ![data flow](docs/flow.png)
 
 ## Documentation
 A more detailed documentation of the project can be found [here](https://chelyabinsk.github.io/RemoteWork/).
