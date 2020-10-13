@@ -1,1 +1,1 @@
-Remote Work file (documentation)[remote_work.md]
+Remote Work file [documentation](remote_work.md)
