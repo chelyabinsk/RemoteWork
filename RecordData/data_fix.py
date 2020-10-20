@@ -32,7 +32,7 @@ def gen_file(repo):
 def update_date(m,d,y,raw_url,repo):
         r = requests.get(raw_url)
         if r.status_code == 200:
-                file = r.text
+            file = r.text
         good_dates_line = file[:file.find('];')+3]
         other_file = file[file.find('];')+3:]
         good_dates_line = good_dates_line.replace('];',",'{}/{}/{}'];".format(m,d,y))
@@ -45,12 +45,12 @@ def update_date(m,d,y,raw_url,repo):
 def gh_procedure():
         todaydate = glob.glob('viewers/*.txt')[0]
         with open('../gh.token','r') as f:
-                tmp = f.read().split("\n")
-                email = tmp[1]
-                token = tmp[0]
-                url = tmp[2]
-                repo = tmp[3]
-                raw_url = tmp[4]
+            tmp = f.read().split("\n")
+            email = tmp[1]
+            token = tmp[0]
+            url = tmp[2]
+            repo = tmp[3]
+            raw_url = tmp[4]
 
         try:
             cp = cmd.run('cd ../..; git clone {}'.format(url),check=True,shell=True)
@@ -67,16 +67,17 @@ def gh_procedure():
         home = str(Path.home())
         
         with open('{}/.git-credentials'.format(home),'w') as f:
-                f.write('https://{}:{}@github.com\n'.format(email,token))
+            f.write('https://{}:{}@github.com\n'.format(email,token))
         try:
-                print("add files")
-                cmd.run('cd ../../{}; git add .'.format(repo),check=True,shell=True)
-                print("commit")
-                cmd.run('cd ../../{}; git commit -am "{} upload"'.format(repo,todaydate),check=True,shell=True)
-                print("push")
-                cmd.run("""cd ../../{}; git push https://{}:{}@github.com/{}/{}.git""".format(repo,email,token,email,repo),check=True,shell=True)
+            #print("add files")
+            cmd.run('cd ../../{}; git add .'.format(repo),check=True,shell=True)
+            #print("commit")
+            cmd.run('cd ../../{}; git commit -am "{} upload"'.format(repo,todaydate),check=True,shell=True)
+            #print("push")
+            cmd.run("""cd ../../{}; git push https://{}:{}@github.com/{}/{}.git""".format(repo,email,token,email,repo),check=True,shell=True)
         except:
-                print("oh dear! git fucked up")
-        #cp = cmd.run('rm ../../{} -rf'.format(repo),check=True,shell=True)
+            print("oh dear! git fucked up")
+        cp = cmd.run('rm ../../{} -rf'.format(repo),check=True,shell=True)
 
 #gh_procedure()
+
