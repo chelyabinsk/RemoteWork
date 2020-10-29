@@ -43,8 +43,8 @@ def exec_run():
         if now.minute % 15 == 0:
             make_ping()
         if now.hour == 2 and now.minute == 4:
-            upload_youtube_data()  # Upload to GDrive
             gh_procedure()  # Upload to GitHub
+            upload_youtube_data()  # Upload to GDrive
         if now.hour == 2 and now.minute == 5:
             S.stop()
             find_steams = reload(find_steams)
